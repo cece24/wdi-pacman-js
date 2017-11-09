@@ -81,9 +81,16 @@ function eatGhost(ghost) {
   if (ghost.edible === false) {
     lives--;
     console.log('\nOh no! Eaten by a ' + ghost.colour + ' ' + ghost.name + '!');
+    checkLives();
   }
 }
 
+function checkLives() {
+  if (lives < 0) {
+    console.log('You\'ve run out of lives!');
+    process.exit();
+  }
+}
 
 // Process Player's Input
 function processInput(key) {
@@ -106,7 +113,7 @@ function processInput(key) {
       break;
     case '4':
       eatGhost(ghosts[3]);
-      break;  
+      break;
     default:
       console.log('\nInvalid Command!');
   }
