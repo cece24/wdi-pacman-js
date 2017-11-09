@@ -66,7 +66,13 @@ function displayMenu() {
     console.log('(p) Eat Power-Pellet');
   };
   ghosts.forEach(function(ghost) {
-    console.log('(' + ghost.menu_option + ') Eat ' + ghost.name );
+    var displayEdible;
+    if (ghost.edible === true) {
+      displayEdible = 'edible';
+    } else {
+      displayEdible = 'inedible';
+    }
+    console.log('(' + ghost.menu_option + ') Eat ' + ghost.name + ' (' + displayEdible + ')' );
   });
   console.log('(q) Quit');
 }
