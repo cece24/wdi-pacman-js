@@ -89,7 +89,9 @@ function eatGhost(ghost) {
     console.log('\nOh no! Eaten by a ' + ghost.colour + ' ' + ghost.name + '!');
     checkLives();
   } else {
-    console.log('\n Pac-Man ate a ' + ghost.colour + ' ' + ghost.name + '!');
+    score += 200;
+    ghost.edible = false;
+    console.log('\n Pac-Man ate a ' + ghost.character + ' ' + ghost.name + '!');
   }
 }
 
