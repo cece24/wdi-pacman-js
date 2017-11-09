@@ -2,6 +2,7 @@
 var score = 0;
 var lives = 2;
 var dots = 240;
+var eatenGhosts = [];
 
 var powerPellets = 4;
 
@@ -110,9 +111,28 @@ function eatGhost(ghost) {
     console.log('\nOh no! Eaten by a ' + ghost.colour + ' ' + ghost.name + '!');
     checkLives();
   } else {
-    score += 200;
+    var points = checkEatenGhosts(ghost.name);
+    score += points;
     ghost.edible = false;
     console.log('\n Pac-Man ate a ' + ghost.character + ' ' + ghost.name + '!');
+
+    eatenGhosts.push(ghost.name)
+  }
+}
+
+function checkEatenGhosts(ghostName) {
+  var ghostCounter = eatenGhosts.filter(function(ghost) {
+    return ghost === ghostName;
+  }).length;
+
+  if (ghostCounter === 0) {
+    return 200;
+  } else if (ghostCounter === 1) {
+    return 400;
+  } else if (ghostCounter === 2) {
+    return 800;
+  } else {
+    return 1600;
   }
 }
 
