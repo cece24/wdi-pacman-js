@@ -264,8 +264,13 @@ function processInput(key) {
       eatDot('all');
       break;
     case 'a':
-      eatFruit();
-      break;
+      if (dots < 240 && fruitAvailable === true) {
+        eatFruit();
+        break;
+      } else {
+        console.log('\nNo fruit available!');
+        break;
+      }
     case 'p':
       if (powerPellets > 0 && checkFourGhostsEaten() === true) {
         eatPowerPellet();
