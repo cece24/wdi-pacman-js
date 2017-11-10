@@ -2,7 +2,7 @@
 var score = 0;
 var lives = 2;
 var dots = 240;
-var level = 1;
+var level = 256;
 var fruit = setFruit();
 var fruitAvailable = false;
 var eatenGhosts = [];
@@ -48,12 +48,15 @@ var ghosts = [inky, blinky, pinky, clyde];
 // Draw the screen functionality
 function drawScreen() {
   clearScreen();
-  setTimeout(function() {
-    displayStats();
-    showFruit();
-    displayMenu();
-    displayPrompt();
-  }, 10);
+  determineLevel();
+  if (level < 257) {
+    setTimeout(function() {
+      displayStats();
+      showFruit();
+      displayMenu();
+      displayPrompt();
+    }, 10);
+  }
 }
 
 function clearScreen() {
@@ -194,13 +197,17 @@ function checkFourGhostsEaten() {
 // all ghosts reset to inedible
 // reset eatenGhosts array
 function determineLevel() {
-  if (powerPellets < 1 && dots < 1) {
+  if (powerPellets < 1 && dots < 1 && level < 257) {
     level++;
     powerPellets = 4;
     dots = 240;
     setAllGhostsInedible();
     fruit = setFruit();
     console.log('\nYou have leveled up!');
+  } else if (level === 257) {
+    console.log('\nYou have completed the last level!');
+    console.log('\nYOU WIN!');
+    process.exit();
   }
 }
 
@@ -317,7 +324,6 @@ drawScreen();
 stdin.on('data', function(key) {
   process.stdout.write(key);
   processInput(key);
-  determineLevel();
   setTimeout(drawScreen, 400); // The command prompt will flash a message for 300 milliseoncds before it re-draws the screen. You can adjust the 300 number to increase this.
 });
 
