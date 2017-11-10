@@ -149,6 +149,12 @@ function eatPowerPellet() {
   ghosts.forEach(function(ghost) {
     ghost.edible = true;
   });
+  setTimeout(function() {
+    ghosts.forEach(function(ghost) {
+      ghost.edible = false;
+    });
+  }, 10000);
+  setTimeout(drawScreen, 10000);
 }
 
 function checkFourGhostsEaten() {
