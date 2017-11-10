@@ -2,6 +2,7 @@
 var score = 0;
 var lives = 2;
 var dots = 240;
+var level = 1;
 var eatenGhosts = [];
 
 var powerPellets = 4;
@@ -57,6 +58,7 @@ function clearScreen() {
 }
 
 function displayStats() {
+  console.log('****** Level ' + level + ' ******');
   console.log('Score: ' + score + '     Lives: ' + lives);
   console.log('\nDots Left: ' + dots);
   console.log('\nPower-Pellets: ' + powerPellets);
@@ -68,7 +70,7 @@ function displayMenu() {
   if (dots > 10) {
     console.log('(w) Eat 10 Dots');
   }
-  if (dots > 100) {
+  if (dots >= 100) {
     console.log('(e) Eat 100 Dots');
   }
   console.log('(r) Eat all remaining dots');
@@ -143,19 +145,22 @@ function checkLives() {
   }
 }
 
+function setAllGhostsInedible() {
+  ghosts.forEach(function(ghost) {
+    ghost.edible = false;
+  });
+}
+
 function eatPowerPellet() {
   score += 50;
   powerPellets--;
   ghosts.forEach(function(ghost) {
     ghost.edible = true;
   });
-  setTimeout(function() {
-    ghosts.forEach(function(ghost) {
-      ghost.edible = false;
-    });
-  }, 10000);
+  setTimeout(setAllGhostsInedible, 10000);
   setTimeout(drawScreen, 10000);
 }
+
 
 function checkFourGhostsEaten() {
   var ghostsEdibleStatus = ghosts.filter(function(ghost) {
@@ -168,6 +173,28 @@ function checkFourGhostsEaten() {
     return true;
   }
 }
+
+
+// Check Level
+// if powerPellets is 0 and dots is 0
+// increase level by 1 and powerPellets and dots are reset
+// all ghosts reset to inedible
+// reset eatenGhosts array
+// set the fruit for that Level
+function determineLevel() {
+  if (powerPellets < 1 && dots < 1) {
+    level++;
+    powerPellets = 4;
+    dots = 240;
+    setAllGhostsInedible();
+    console.log('\nYou have leveled up!');
+  }
+}
+
+// modify screen stat display to show level - done
+// another function to determine fruit to appear and points
+
+
 
 // Process Player's Input
 function processInput(key) {
@@ -234,6 +261,7 @@ drawScreen();
 stdin.on('data', function(key) {
   process.stdout.write(key);
   processInput(key);
+  determineLevel();
   setTimeout(drawScreen, 400); // The command prompt will flash a message for 300 milliseoncds before it re-draws the screen. You can adjust the 300 number to increase this.
 });
 
