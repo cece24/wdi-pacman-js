@@ -60,7 +60,7 @@ function clearScreen() {
 
 function displayStats() {
   console.log('****** Level ' + level + ' ******');
-  console.log('Fruit available: ' + fruit.name);
+  console.log('Watch for this fruit: ' + fruit.name);
   console.log('Score: ' + score + '     Lives: ' + lives);
   console.log('\nDots Left: ' + dots);
   console.log('\nPower-Pellets: ' + powerPellets);
@@ -68,14 +68,23 @@ function displayStats() {
 
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
+
   console.log('(d) Eat Dot');
+
   if (dots > 10) {
     console.log('(w) Eat 10 Dots');
   }
+
   if (dots >= 100) {
     console.log('(e) Eat 100 Dots');
   }
+
   console.log('(r) Eat all remaining dots');
+
+  if (dots < 240) {
+    console.log('(a) Eat Fruit');
+  }
+
   if (powerPellets > 0) {
     console.log('(p) Eat Power-Pellet');
   };
@@ -214,6 +223,10 @@ function setFruit() {
   }
 }
 
+function eatFruit() {
+  score += fruit.points
+}
+
 // modify screen stat display to show level - done
 // another function to determine fruit to appear and points
 // add conditionals for if all 256 levels are completed
@@ -238,6 +251,9 @@ function processInput(key) {
       break;
     case 'r':
       eatDot('all');
+      break;
+    case 'a':
+      eatFruit();
       break;
     case 'p':
       if (powerPellets > 0 && checkFourGhostsEaten() === true) {
