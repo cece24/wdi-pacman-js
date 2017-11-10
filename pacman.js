@@ -3,6 +3,7 @@ var score = 0;
 var lives = 2;
 var dots = 240;
 var level = 1;
+var fruit = setFruit();
 var eatenGhosts = [];
 
 var powerPellets = 4;
@@ -59,6 +60,7 @@ function clearScreen() {
 
 function displayStats() {
   console.log('****** Level ' + level + ' ******');
+  console.log('Fruit available: ' + fruit.name);
   console.log('Score: ' + score + '     Lives: ' + lives);
   console.log('\nDots Left: ' + dots);
   console.log('\nPower-Pellets: ' + powerPellets);
@@ -180,19 +182,41 @@ function checkFourGhostsEaten() {
 // increase level by 1 and powerPellets and dots are reset
 // all ghosts reset to inedible
 // reset eatenGhosts array
-// set the fruit for that Level
 function determineLevel() {
   if (powerPellets < 1 && dots < 1) {
     level++;
     powerPellets = 4;
     dots = 240;
     setAllGhostsInedible();
+    fruit = setFruit();
     console.log('\nYou have leveled up!');
+  }
+}
+
+// set the fruit for that Level
+function setFruit() {
+  if (level === 1) {
+    return {name: 'Cherry', points: 100}
+  } else if (level === 2) {
+    return {name: 'Strawberry', points: 300}
+  } else if (level === 3 || level === 4) {
+    return {name: 'Orange', points: 500}
+  } else if (level === 5 || level === 6) {
+    return {name: 'Apple', points: 700}
+  } else if (level === 7 || level === 8) {
+    return {name: 'Pineapple', points: 1000}
+  } else if (level === 9 || level === 10) {
+    return {name: 'Galaxian Spaceship', points: 2000}
+  } else if (level === 11 || level === 12) {
+    return {name: 'Bell', points: 3000}
+  } else if (level >= 13) {
+    return {name: 'Key', points: 5000}
   }
 }
 
 // modify screen stat display to show level - done
 // another function to determine fruit to appear and points
+// add conditionals for if all 256 levels are completed
 
 
 
