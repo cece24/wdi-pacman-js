@@ -151,6 +151,18 @@ function eatPowerPellet() {
   });
 }
 
+function checkFourGhostsEaten() {
+  var ghostsEdibleStatus = ghosts.filter(function(ghost) {
+    return ghost.edible === true;
+  });
+
+  if (ghostsEdibleStatus.length > 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 // Process Player's Input
 function processInput(key) {
   switch(key) {
@@ -171,11 +183,14 @@ function processInput(key) {
       eatDot('all');
       break;
     case 'p':
-      if (powerPellets > 0) {
+      if (powerPellets > 0 && checkFourGhostsEaten() === true) {
         eatPowerPellet();
         break;
-      } else {
+      } else if (powerPellets < 1) {
         console.log('\nNo Power-Pellets left!');
+        break;
+      } else {
+        console.log('\nEat all ghosts before eating another power pellet!');
         break;
       }
     case '1':
@@ -213,7 +228,7 @@ drawScreen();
 stdin.on('data', function(key) {
   process.stdout.write(key);
   processInput(key);
-  setTimeout(drawScreen, 300); // The command prompt will flash a message for 300 milliseoncds before it re-draws the screen. You can adjust the 300 number to increase this.
+  setTimeout(drawScreen, 400); // The command prompt will flash a message for 300 milliseoncds before it re-draws the screen. You can adjust the 300 number to increase this.
 });
 
 // Player Quits
