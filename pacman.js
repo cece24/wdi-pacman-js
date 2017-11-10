@@ -4,6 +4,7 @@ var lives = 2;
 var dots = 240;
 var level = 1;
 var fruit = setFruit();
+var fruitAvailable = false;
 var eatenGhosts = [];
 
 var powerPellets = 4;
@@ -49,6 +50,7 @@ function drawScreen() {
   clearScreen();
   setTimeout(function() {
     displayStats();
+    showFruit();
     displayMenu();
     displayPrompt();
   }, 10);
@@ -81,8 +83,8 @@ function displayMenu() {
 
   console.log('(r) Eat all remaining dots');
 
-  if (dots < 240) {
-    console.log('(a) Eat Fruit');
+  if (dots < 240 && fruitAvailable === true) {
+    console.log('(a) Eat ' + fruit.name + ' (' + fruit.points + ' points)');
   }
 
   if (powerPellets > 0) {
@@ -225,6 +227,15 @@ function setFruit() {
 
 function eatFruit() {
   score += fruit.points
+}
+
+function showFruit() {
+  var random = Math.random()
+  if (random <= 0.5) {
+    fruitAvailable = true;
+  } else {
+    fruitAvailable = false;
+  }
 }
 
 // modify screen stat display to show level - done
